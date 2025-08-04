@@ -18,22 +18,18 @@ export default function Home() {
   }, []);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = e.target.value;
-    const setElement = document.getElementById("search-term");
-    if (!setElement) {
-      return;
-    }
-    setElement.innerHTML = searchTerm;
+    const searchTerm = e.target.value.toLowerCase();
+    const regex = new RegExp(searchTerm, "i");
 
     console.log("filtering advocates...");
     const filteredAdvocates = advocates.filter((advocate) => {
       return (
-        advocate.firstName.includes(searchTerm) ||
-        advocate.lastName.includes(searchTerm) ||
-        advocate.city.includes(searchTerm) ||
-        advocate.degree.includes(searchTerm) ||
-        advocate.specialties.toString().includes(searchTerm) ||
-        advocate.yearsOfExperience.toString().includes(searchTerm)
+        regex.test(advocate.firstName) ||
+        regex.test(advocate.lastName) ||
+        regex.test(advocate.city) ||
+        regex.test(advocate.degree) ||
+        regex.test(advocate.specialties.flat().toString()) ||
+        regex.test(advocate.yearsOfExperience.toString())
       );
     });
 
@@ -62,18 +58,20 @@ export default function Home() {
       <br />
       <table>
         <thead>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>City</th>
-          <th>Degree</th>
-          <th>Specialties</th>
-          <th>Years of Experience</th>
-          <th>Phone Number</th>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>City</th>
+            <th>Degree</th>
+            <th>Specialties</th>
+            <th>Years of Experience</th>
+            <th>Phone Number</th>
+          </tr>
         </thead>
         <tbody>
-          {filteredAdvocates.map((advocate) => {
+          {filteredAdvocates.map((advocate, i) => {
             return (
-              <tr>
+              <tr key={i}>
                 <td>{advocate.firstName}</td>
                 <td>{advocate.lastName}</td>
                 <td>{advocate.city}</td>
