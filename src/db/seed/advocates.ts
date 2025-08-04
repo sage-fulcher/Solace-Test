@@ -1,7 +1,8 @@
+import { advocate } from "@/types/advocates";
 import db from "..";
 import { advocates } from "../schema";
 
-const specialties = [
+export const specialties = [
   "Bipolar",
   "LGBTQ",
   "Medication/Prescribing",
@@ -28,7 +29,7 @@ const specialties = [
   "Schizophrenia and psychotic disorders",
   "Learning disorders",
   "Domestic abuse",
-];
+] as const;
 
 const randomSpecialty = () => {
   const random1 = Math.floor(Math.random() * 24);
@@ -37,7 +38,7 @@ const randomSpecialty = () => {
   return [random1, random2];
 };
 
-const advocateData = [
+const advocateData: Array<advocate> = [
   {
     firstName: "John",
     lastName: "Doe",
