@@ -4,36 +4,33 @@ import { advocate } from "@/types/advocates";
 import { useEffect, useState } from "react";
 import { SearchBar } from "./molecules/SearchBar";
 import { ResultsTable } from "./organisms/ResultsTable";
+import { param } from "drizzle-orm";
 
 export default function Home() {
   const [advocates, setAdvocates] = useState<advocate[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("alice");
+  const [cursor, setCursor] = useState("0");
   const [filteredAdvocates, setFilteredAdvocates] = useState<advocate[]>([]);
 
   useEffect(() => {
-    console.log("fetching advocates...");
-    fetch("/api/advocates").then((response) => {
-      response.json().then((jsonResponse) => {
-        setAdvocates(jsonResponse.data);
-        setFilteredAdvocates(jsonResponse.data);
-      });
+    const params = new URLSearchParams({
+      cursor: cursor,
+      term: searchTerm,
     });
-  }, []);
+    const delayDebounceFn = setTimeout(() => {
+      console.log(searchTerm);
 
-  useEffect(() => {
-    const regex = new RegExp(searchTerm, "i");
-    const filteredAdvocates = advocates.filter((advocate) => {
-      return (
-        regex.test(advocate.firstName) ||
-        regex.test(advocate.lastName) ||
-        regex.test(advocate.city) ||
-        regex.test(advocate.degree) ||
-        regex.test(advocate.specialties.flat().toString()) ||
-        regex.test(advocate.yearsOfExperience.toString())
-      );
-    });
-    setFilteredAdvocates(filteredAdvocates);
-  }, [searchTerm, advocates]);
+      console.log("fetching advocates...", params.toString());
+      fetch("/api/advocates" + `?${params.toString()}`).then((response) => {
+        response.json().then((jsonResponse) => {
+          setAdvocates(jsonResponse.data);
+          setFilteredAdvocates(jsonResponse.data);
+        });
+      });
+    }, 300);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [cursor, searchTerm]);
 
   const onSearchTermChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value.toLowerCase());
@@ -55,7 +52,7 @@ export default function Home() {
       />
       <br />
       <br />
-      <ResultsTable advocates={filteredAdvocates} />
+      <ResultsTable advocates={advocates} />
     </main>
   );
 }
