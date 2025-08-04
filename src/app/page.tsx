@@ -52,7 +52,7 @@ export default function Home() {
           Searching for: <span id="search-term"></span>
         </p>
         <input style={{ border: "1px solid black" }} onChange={onChange} />
-        <button onClick={onClick}>Reset Search</button>
+        <button onClick={onClick}>Reset</button>
       </div>
       <br />
       <br />
