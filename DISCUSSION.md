@@ -1,4 +1,4 @@
-In order the way I addressed these changes were to
+In order of approach the way I addressed these changes were to
 
 - Make Typescript happy, ideally no more anys (but especially no more explicit anys)
   adds types for advocates and and specialties - In this stage I didn't change the phone number, but I want to call out that in a real production app we shouldn't be storing phone numbers as numbers, given we never want to do any numerical operations on them. Ideally they should be a separate model in the DB with a many to many relationship with Advocates and ideally eventually on the patient model as well. We'd want the many to many because multiple patients/providers may have the same phone number (patients can cohabitate or share a phone, advocates can be working out of an office etc) and we'd want to make it its own model so phone numbers can eventually have more info attached to them (for example if the number is a cellphone or an answering service etc). Ideally Id probably also change the name of this field to contact phone number or something similar incase we want to add sms login down the line.

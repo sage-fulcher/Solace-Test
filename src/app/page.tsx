@@ -13,7 +13,7 @@ export default function Home() {
   const [cursor, setCursor] = useState(0);
   const [nextCursor, setNextCursor] = useState(0);
   const [previousCursors, setPreviousCursors] = useState<Array<number>>([]);
-  const [pageSize] = useState(3);
+  const [pageSize] = useState(50);
   const [fetching, setFetching] = useState(false);
 
   useEffect(() => {
@@ -75,7 +75,6 @@ export default function Home() {
       <h1>Solace Advocates</h1>
       <br />
       <br />
-      {fetching ? "yes" : "no"}
       <SearchBar
         value={searchTerm}
         onChange={onSearchTermChange}
