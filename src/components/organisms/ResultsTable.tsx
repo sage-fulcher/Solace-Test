@@ -7,9 +7,9 @@ interface IResultsTableProps {
 }
 export const ResultsTable = ({ advocates }: IResultsTableProps) => {
   return (
-    <table className="table-auto">
+    <table className="w-full border-collapse divide-y divide-gray-600">
       <ResultsTableHeader />
-      <tbody>
+      <tbody className="divide-y divide-gray-300">
         {advocates.map((advocate, i) => {
           return <AdvocateRowItem advocate={advocate} key={i} />;
         })}
