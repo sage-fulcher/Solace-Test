@@ -2,9 +2,8 @@
 
 import { advocate } from "@/types/advocates";
 import { useEffect, useState } from "react";
-import { SearchBar } from "./molecules/SearchBar";
-import { ResultsTable } from "./organisms/ResultsTable";
-import { param } from "drizzle-orm";
+import { SearchBar } from "../components/organisms/molecules/SearchBar";
+import { ResultsTable } from "../components/organisms/ResultsTable";
 
 export default function Home() {
   const [advocates, setAdvocates] = useState<advocate[]>([]);
